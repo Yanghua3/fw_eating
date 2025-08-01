@@ -4,12 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>随机午餐选择器</title>
+    <title>吃什么</title>
     <!-- 引入Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- 引入Font Awesome -->
-    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
+    <!-- <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
     <!-- 配置Tailwind自定义颜色 -->
     <script>
         tailwind.config = {
@@ -54,10 +56,10 @@
         <!-- 页面标题 -->
         <header class="text-center mb-12">
             <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-primary mb-4 text-shadow">
-                <i class="fa fa-cutlery mr-3"></i>随机午餐选择器
+                <i class="fa fa-cutlery mr-3"></i>晚饭吃什么
             </h1>
             <p class="text-gray-600 text-lg max-w-2xl mx-auto">
-                不知道午餐吃什么？让我们帮你随机选择一款美味佳肴！
+                呜呜呜呜吃什么
             </p>
         </header>
 
@@ -70,7 +72,7 @@
                     <i id="food-icon" class="fa fa-utensils text-white text-7xl"></i>
                 </div>
                 <div class="p-6 text-center">
-                    <h2 id="food-name" class="text-2xl font-bold text-gray-800 mb-2">点击下方按钮选择午餐</h2>
+                    <h2 id="food-name" class="text-2xl font-bold text-gray-800 mb-2">点击下方按钮选择</h2>
                     <p id="food-description" class="text-gray-600">
                         数百种美食等你来发现
                     </p>
@@ -102,196 +104,126 @@
 
         <!-- 页脚 -->
         <footer class="mt-20 text-center text-gray-500 text-sm pb-6">
-            <p>随机午餐选择器 &copy; 2025 | 用美食点亮你的午后时光</p>
+            <p>吃点啥选择器 &copy; 2025 | 用美食点亮你的休闲时光</p>
         </footer>
     </div>
 
-    <script>
-        // 食物数据 - 可以根据需要修改
-        const foods = [
-            { name: "汉堡", icon: "fa-hamburger", description: "经典牛肉汉堡配薯条" },
-            { name: "披萨", icon: "fa-pizza-slice", description: "意大利风味披萨" },
-            { name: "寿司", icon: "fa-utensils", description: "新鲜日式寿司拼盘" },
-            { name: "牛肉面", icon: "fa-bowl-food", description: "劲道拉面配大块牛肉" },
-            { name: "麻辣烫", icon: "fa-fire-flame-curved", description: "自选食材麻辣烫" },
-            { name: "炸鸡", icon: "fa-drumstick-bite", description: "香脆多汁炸鸡" },
-            { name: "烤肉饭", icon: "fa-bacon", description: "秘制烤肉配米饭" },
-            { name: "酸菜鱼", icon: "fa-fish", description: "酸辣可口酸菜鱼" },
-            { name: "饺子", icon: "fa-utensils", description: "手工水饺配醋" },
-            { name: "盖浇饭", icon: "fa-utensils", description: "多种口味可选" },
-            { name: "寿司卷", icon: "fa-utensils", description: "日式经典寿司卷" },
-            { name: "沙拉", icon: "fa-leaf", description: "健康轻食沙拉" },
-            { name: "三明治", icon: "fa-sandwich", description: "全麦三明治" },
-            { name: "粥", icon: "fa-bowl-rice", description: "营养暖胃粥品" },
-            { name: "炸鸡排", icon: "fa-drumstick-bite", description: "香酥炸鸡排" },
-            { name: "意面", icon: "fa-utensils", description: "番茄肉酱意面" },
-            { name: "包子", icon: "fa-bread-slice", description: "松软可口包子" },
-            { name: "油条豆浆", icon: "fa-coffee", description: "传统早餐组合" },
-            { name: "麻辣烫", icon: "fa-fire-flame-curved", description: "自选食材麻辣烫" },
-            { name: "烤串", icon: "fa-fire-flame-curved", description: "鲜香烤串拼盘" }
-        ];
+</body>
+<!-- 先引入数据文件 -->
+<script src="foods.js"></script>
+<script>
+    // DOM元素
+    const randomBtn = document.getElementById('random-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const foodCard = document.getElementById('food-card');
+    const foodName = document.getElementById('food-name');
+    const foodDescription = document.getElementById('food-description');
+    const foodIcon = document.getElementById('food-icon');
+    const foodList = document.getElementById('food-list');
 
-        // DOM元素
-        const randomBtn = document.getElementById('random-btn');
-        const resetBtn = document.getElementById('reset-btn');
-        const foodCard = document.getElementById('food-card');
-        const foodName = document.getElementById('food-name');
-        const foodDescription = document.getElementById('food-description');
-        const foodIcon = document.getElementById('food-icon');
-        const foodList = document.getElementById('food-list');
-
-        // 初始化食物列表
-        function initFoodList() {
-            foods.forEach(food => {
-                const foodItem = document.createElement('div');
-                foodItem.className = 'bg-white rounded-lg shadow p-3 text-center card-hover';
-                foodItem.innerHTML = `
+    // 初始化食物列表
+    function initFoodList() {
+        foods.forEach(food => {
+            const foodItem = document.createElement('div');
+            foodItem.className = 'bg-white rounded-lg shadow p-3 text-center card-hover';
+            foodItem.innerHTML = `
                     <i class="fa ${food.icon} text-primary text-xl mb-2"></i>
                     <p class="text-sm">${food.name}</p>
                 `;
-                foodList.appendChild(foodItem);
-            });
-        }
+            foodList.appendChild(foodItem);
+        });
+    }
 
-        // 随机选择食物
-        function selectRandomFood() {
-            // 添加动画效果
-            foodCard.classList.add('opacity-0', 'scale-95');
+    // 随机选择食物
+    function selectRandomFood() {
+        // 添加动画效果
+        foodCard.classList.add('opacity-0', 'scale-95');
 
-            setTimeout(() => {
-                const randomIndex = Math.floor(Math.random() * foods.length);
-                const selectedFood = foods[randomIndex];
+        setTimeout(() => {
+            const randomIndex = Math.floor(Math.random() * foods.length);
+            const selectedFood = foods[randomIndex];
 
-                // 更新卡片内容
-                foodName.textContent = selectedFood.name;
-                foodDescription.textContent = selectedFood.description;
-                foodIcon.className = `fa ${selectedFood.icon} text-white text-7xl`;
+            // 更新卡片内容
+            foodName.textContent = selectedFood.name;
+            foodDescription.textContent = selectedFood.description;
+            foodIcon.className = `fa ${selectedFood.icon} text-white text-7xl`;
 
-                // 移除动画类，触发过渡效果
-                foodCard.classList.remove('opacity-0', 'scale-95');
-            }, 300);
-        }
+            // 移除动画类，触发过渡效果
+            foodCard.classList.remove('opacity-0', 'scale-95');
+        }, 300);
+    }
 
-        // 重置卡片
-        function resetCard() {
-            foodCard.classList.add('opacity-0', 'scale-95');
+    // 重置卡片
+    function resetCard() {
+        foodCard.classList.add('opacity-0', 'scale-95');
 
-            setTimeout(() => {
-                foodName.textContent = "点击下方按钮选择午餐";
-                foodDescription.textContent = "数百种美食等你来发现";
-                foodIcon.className = "fa fa-utensils text-white text-7xl";
+        setTimeout(() => {
+            foodName.textContent = "点击下方按钮选择";
+            foodDescription.textContent = "数百种美食等你来发现";
+            foodIcon.className = "fa fa-utensils text-white text-7xl";
 
-                foodCard.classList.remove('opacity-0', 'scale-95');
-            }, 300);
-        }
+            foodCard.classList.remove('opacity-0', 'scale-95');
+        }, 300);
+    }
 
-        // 事件监听
-        randomBtn.addEventListener('click', selectRandomFood);
-        resetBtn.addEventListener('click', resetCard);
+    // 事件监听
+    randomBtn.addEventListener('click', selectRandomFood);
+    resetBtn.addEventListener('click', resetCard);
 
-        // 页面加载完成后初始化
-        window.addEventListener('DOMContentLoaded', () => {
-            initFoodList();
+    // 页面加载完成后初始化
+    window.addEventListener('DOMContentLoaded', () => {
+        // 根据时间调整标题
+        updateTimeBasedTitle();
+        initFoodList();
 
-            // 为按钮添加点击波纹效果
-            const buttons = document.querySelectorAll('button');
-            buttons.forEach(button => {
-                button.addEventListener('click', function (e) {
-                    const x = e.clientX - e.target.getBoundingClientRect().left;
-                    const y = e.clientY - e.target.getBoundingClientRect().top;
+        // 为按钮添加点击波纹效果
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(button => {
+            button.addEventListener('click', function (e) {
+                const x = e.clientX - e.target.getBoundingClientRect().left;
+                const y = e.clientY - e.target.getBoundingClientRect().top;
 
-                    const ripple = document.createElement('span');
-                    ripple.style.left = x + 'px';
-                    ripple.style.top = y + 'px';
-                    ripple.classList.add('ripple');
+                const ripple = document.createElement('span');
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
 
-                    this.appendChild(ripple);
+                this.appendChild(ripple);
 
-                    setTimeout(() => {
-                        ripple.remove();
-                    }, 600);
-                });
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
             });
         });
-    </script>
+    });
 
-    <style>
-        /* 波纹效果样式 */
-        button {
-            position: relative;
-            overflow: hidden;
-        }
 
-        .ripple {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.5);
-            transform: scale(0);
-            animation: ripple-animation 0.6s linear;
-        }
+    // 添加根据时间调整标题的函数
+    function updateTimeBasedTitle() {
+        const now = new Date();
+        const hours = now.getHours();
+        const titleElement = document.querySelector('header h1');
+        const descriptionElement = document.querySelector('header p');
 
-        @keyframes ripple-animation {
-            to {
-                transform: scale(20);
-                opacity: 0;
-            }
-        }
+        let mealType = '晚饭';
+        let description = '呜呜呜呜吃点啥';
 
-        /* Font Awesome 补充图标类 */
-        .fa-hamburger::before {
-            content: "\f805";
+        if (hours >= 5 && hours < 11) {
+            mealType = '早饭';
+            description = '早上好，来点营养早餐吧';
+        } else if (hours >= 11 && hours < 14) {
+            mealType = '午饭';
+            description = '中午了，吃点好的犒劳自己';
+        } else if (hours >= 14 && hours < 16) {
+            mealType = '下午茶';
+            description = '下午时光，来点小食补充能量';
         }
+        // 18:00 以后默认为晚饭
 
-        .fa-pizza-slice::before {
-            content: "\f818";
-        }
-
-        .fa-utensils::before {
-            content: "\f2e7";
-        }
-
-        .fa-bowl-food::before {
-            content: "\f82e";
-        }
-
-        .fa-fire-flame-curved::before {
-            content: "\f7e4";
-        }
-
-        .fa-drumstick-bite::before {
-            content: "\f6d7";
-        }
-
-        .fa-bacon::before {
-            content: "\f7e5";
-        }
-
-        .fa-fish::before {
-            content: "\f578";
-        }
-
-        .fa-bowl-rice::before {
-            content: "\f81a";
-        }
-
-        .fa-leaf::before {
-            content: "\f06c";
-        }
-
-        .fa-sandwich::before {
-            content: "\f81d";
-        }
-
-        .fa-bread-slice::before {
-            content: "\f7ec";
-        }
-
-        .fa-coffee::before {
-            content: "\f0f4";
-        }
-    </style>
-</body>
+        // 更新标题和描述
+        titleElement.innerHTML = `<i class="fa fa-cutlery mr-3"></i>${mealType}吃什么`;
+        descriptionElement.textContent = description;
+    }
+</script>
 
 </html>

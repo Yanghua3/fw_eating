@@ -1,0 +1,77 @@
+
+/* 波纹效果样式 */
+button {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    transform: scale(0);
+    animation: ripple-animation 0.6s linear;
+}
+
+@keyframes ripple-animation {
+    to {
+        transform: scale(20);
+        opacity: 0;
+    }
+}
+
+/* Font Awesome 补充图标类 */
+.fa-hamburger::before {
+    content: "\f805";
+}
+
+.fa-pizza-slice::before {
+    content: "\f818";
+}
+
+.fa-utensils::before {
+    content: "\f2e7";
+}
+
+.fa-bowl-food::before {
+    content: "\f82e";
+}
+
+.fa-fire-flame-curved::before {
+    content: "\f7e4";
+}
+
+.fa-drumstick-bite::before {
+    content: "\f6d7";
+}
+
+.fa-bacon::before {
+    content: "\f7e5";
+}
+
+.fa-fish::before {
+    content: "\f578";
+}
+
+.fa-bowl-rice::before {
+    content: "\f81a";
+}
+
+.fa-leaf::before {
+    content: "\f06c";
+}
+
+.fa-sandwich::before {
+    content: "\f81d";
+}
+
+.fa-bread-slice::before {
+    content: "\f7ec";
+}
+
+.fa-coffee::before {
+    content: "\f0f4";
+}
+
